@@ -8,13 +8,16 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Alert from '@mui/material/Alert';
 import Container from '@mui/material/Container';
 import Pagination from '@mui/material/Pagination';
+import Button from '@mui/material/Button';
 import { HeroesCard } from '../HeroesCard';
 import { Hero } from '../../types/Hero';
+import { useNavigate } from 'react-router-dom';
 
 const ITEMS_PER_PAGE = 5;
 
 export const HeroesList: FC = () => {
   const { heroes, heroesIsLoading, heroesError } = useAppSelector(selectors.getHeroes);
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [heroesForCurrentPage, setHeroesForCurrentPage] = useState<Hero[]>([]);
@@ -41,6 +44,14 @@ export const HeroesList: FC = () => {
 
         {!heroesIsLoading && !heroesError && heroes.length > 0 && (
           <Paper elevation={16} sx={{ padding: '20px' }}>
+            <Button
+              variant="contained"
+              onClick={() => navigate('/hero/edit')}
+              sx={{ marginBottom: '20px' }}
+            >
+              Add new hero
+            </Button>
+
             <Grid container spacing={4}>
               {heroes.map(hero => (
                 <HeroesCard hero={hero} key={hero._id} />

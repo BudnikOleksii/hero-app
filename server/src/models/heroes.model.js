@@ -7,6 +7,12 @@ async function getAllHeroes(skip, limit) {
     .limit(limit);
 }
 
+async function getHeroById(id) {
+  return await HeroesModel.findOne({
+    _id: id,
+  });
+}
+
 async function createNewHero(body) {
   const {
     nickname,
@@ -61,6 +67,7 @@ async function updateHeroById(id, body) {
 
 module.exports = {
   getAllHeroes,
+  getHeroById,
   createNewHero,
   removeHeroById,
   updateHeroById,

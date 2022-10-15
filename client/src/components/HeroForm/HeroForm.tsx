@@ -19,8 +19,8 @@ const defaultHero: NewHero = {
 };
 
 export const HeroForm: FC = () => {
-  const { heroId = 0 } = useParams();
-  const [open, setOpen] = useState(heroId !== 0);
+  const { heroId } = useParams();
+  const [open, setOpen] = useState(Number(heroId) !== 0);
 
   const heroState = useAppSelector(state => (
     state.heroesState.heroes.find(hero => hero._id === heroId) || defaultHero
