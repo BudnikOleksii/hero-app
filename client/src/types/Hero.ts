@@ -1,7 +1,5 @@
-export type Id = number | string;
-
 export interface Hero {
-  id: Id;
+  _id: string;
   nickname: string;
   real_name: string;
   origin_description: string;
@@ -10,4 +8,4 @@ export interface Hero {
   images: string[];
 }
 
-export type NewHero = Omit<Hero, 'id'>;
+export type NewHero = Omit<Hero, '_id'>;

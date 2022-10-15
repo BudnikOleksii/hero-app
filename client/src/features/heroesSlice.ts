@@ -2,16 +2,16 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   createHero, deleteHeroById, getHeroes, updateHero,
 } from '../api/heroes';
-import { Hero, Id } from '../types/Hero';
+import { Hero } from '../types/Hero';
 
 interface HeroesState {
-  heroes: Map<Id,Hero>,
+  heroes: Hero[],
   heroesIsLoading: boolean;
   heroesError: string;
 }
 
 const initialState: HeroesState = {
-  heroes: new Map(),
+  heroes: [],
   heroesIsLoading: false,
   heroesError: '',
 };
@@ -47,9 +47,7 @@ export const heroesSlice = createSlice({
 
     builder.addCase(fetchHeroes.fulfilled,
       (state, action: PayloadAction<Hero[]>) => {
-        action.payload.forEach(hero => {
-          state.heroes.set(hero.id, hero);
-        });
+        state.heroes = action.payload;
         state.heroesIsLoading = false;
       });
 
@@ -58,15 +56,19 @@ export const heroesSlice = createSlice({
     });
 
     builder.addCase(addNewHero.fulfilled, (state, action) => {
-      state.heroes.set(action.payload.id, action.payload);
+      state.heroes.push(action.payload);
     });
 
     builder.addCase(updateHeroById.fulfilled, (state, action) => {
-      state.heroes.set(action.payload.id, action.payload);
+      state.heroes = state.heroes.map(hero => (
+        hero._id === action.meta.arg._id ? action.payload : hero
+      ));
     });
 
     builder.addCase(removeHeroById.fulfilled, (state, action) => {
-      state.heroes.delete(action.meta.arg);
+      state.heroes = state.heroes.filter(hero => (
+        hero._id !== action.meta.arg
+      ));
     });
   },
 });

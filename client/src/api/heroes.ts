@@ -1,11 +1,12 @@
-import { Hero, Id, NewHero } from '../types/Hero';
+import { Hero, NewHero } from '../types/Hero';
 
-const PORT = process.env.PORT || 5000;
-const BASE_URL = `http://localhost:${PORT}`;
+const PORT = process.env.PORT || 8000;
+const BASE_URL = `http://localhost:${PORT}/v1`;
 
 export const ENDPOINTS = {
   heroes: '/heroes',
-  heroById: (id: Id) => `/heroes/${id}`,
+  heroesByQuery: (page: number, limit: number) => `/heroes?page=${page}&limit=${limit}`,
+  heroById: (id: string) => `/heroes/${id}`,
 };
 
 type RequestMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
@@ -45,18 +46,22 @@ export const getHeroes = (): Promise<Hero[]> => {
   return client.get<Hero[]>(ENDPOINTS.heroes);
 };
 
-export const getHeroById = (id: Id): Promise<Hero> => {
+export const getHeroesWithQueryParams = (page: number, limit: number): Promise<Hero[]> => {
+  return client.get<Hero[]>(ENDPOINTS.heroesByQuery(page, limit));
+};
+
+export const getHeroById = (id: string): Promise<Hero> => {
   return client.get<Hero>(ENDPOINTS.heroById(id));
-}
+};
 
 export const createHero = (data: NewHero): Promise<Hero> => {
   return client.post<Hero>(ENDPOINTS.heroes, data);
 };
 
 export const updateHero = (data: Hero): Promise<Hero> => {
-  return client.patch<Hero>(ENDPOINTS.heroById(data.id), data);
+  return client.patch<Hero>(ENDPOINTS.heroById(data._id), data);
 };
 
-export const deleteHeroById = (id: Id) => {
+export const deleteHeroById = (id: string) => {
   return client.delete(ENDPOINTS.heroById(id));
 };
