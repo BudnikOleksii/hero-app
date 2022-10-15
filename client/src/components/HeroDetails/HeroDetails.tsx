@@ -10,6 +10,9 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import CardActions from '@mui/material/CardActions';
 import ClearIcon from '@mui/icons-material/Clear';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
 import { Hero } from '../../types/Hero';
 import { removeHeroById, updateHeroById } from '../../features/heroesSlice';
 import { ModalContentWrapper } from '../ModalContentWrapper';
@@ -74,21 +77,23 @@ export const HeroDetails: FC<Props> = ({ hero }) => {
             {nickname}
           </Typography>
 
-          <Typography variant="body2" color="text.secondary">
-            {`Real name: ${real_name}`}
-          </Typography>
+          <List>
+            <ListItem disablePadding>
+              <ListItemText primary={`Real name: ${real_name}`} />
+            </ListItem>
 
-          <Typography variant="body2" color="text.secondary">
-            {`Origin description: ${origin_description}`}
-          </Typography>
+            <ListItem disablePadding>
+              <ListItemText primary={`Origin description: ${origin_description}`} />
+            </ListItem>
 
-          <Typography variant="body2" color="text.secondary">
-            {`Super powers: ${superpowers}`}
-          </Typography>
+            <ListItem disablePadding>
+              <ListItemText primary={`Super powers: ${superpowers}`} />
+            </ListItem>
 
-          <Typography variant="body2" color="text.secondary">
-            {`Catch phrase: ${catch_phrase}`}
-          </Typography>
+            <ListItem disablePadding>
+              <ListItemText primary={`Catch phrase: ${catch_phrase}`} />
+            </ListItem>
+          </List>
 
           {heroImages.length > 0 && (
             <>

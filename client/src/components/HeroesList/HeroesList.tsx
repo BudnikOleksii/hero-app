@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import { Layout } from '../Layout/Layout';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-import { useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { selectors } from '../../app/store';
 import LinearProgress from '@mui/material/LinearProgress';
 import Alert from '@mui/material/Alert';
@@ -10,23 +10,26 @@ import Container from '@mui/material/Container';
 import Pagination from '@mui/material/Pagination';
 import Button from '@mui/material/Button';
 import { HeroesCard } from '../HeroesCard';
-import { Hero } from '../../types/Hero';
 import { useNavigate } from 'react-router-dom';
+import { fetchHeroesForCurrentPage } from '../../features/heroesSlice';
 
 const ITEMS_PER_PAGE = 5;
 
 export const HeroesList: FC = () => {
-  const { heroes, heroesIsLoading, heroesError } = useAppSelector(selectors.getHeroes);
+  const { heroes, heroesCount, heroesIsLoading, heroesError } = useAppSelector(selectors.getHeroes);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [heroesForCurrentPage, setHeroesForCurrentPage] = useState<Hero[]>([]);
 
-  const pages = Math.ceil(heroes.length / ITEMS_PER_PAGE);
+  const pages = Math.ceil(heroesCount / ITEMS_PER_PAGE);
 
-  // useEffect(() => {
-  //
-  // }, [currentPage])
+  useEffect(() => {
+    dispatch(fetchHeroesForCurrentPage({
+      page: currentPage,
+      limit: ITEMS_PER_PAGE,
+    }))
+  }, [currentPage])
 
 
   return (

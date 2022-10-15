@@ -46,7 +46,12 @@ export const getHeroes = (): Promise<Hero[]> => {
   return client.get<Hero[]>(ENDPOINTS.heroes);
 };
 
-export const getHeroesWithQueryParams = (page: number, limit: number): Promise<Hero[]> => {
+interface Pagination {
+  page: number,
+  limit: number,
+}
+
+export const getHeroesWithQueryParams = ({ page,limit  }: Pagination): Promise<Hero[]> => {
   return client.get<Hero[]>(ENDPOINTS.heroesByQuery(page, limit));
 };
 

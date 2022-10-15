@@ -68,13 +68,15 @@ export const HeroForm: FC = () => {
   };
 
   const isValidForm = () => {
-    return (
-      isValidTextInput(hero.nickname)
-      && isValidTextInput(hero.real_name)
-      && isValidTextInput(hero.origin_description)
-      && isValidTextInput(hero.superpowers)
-      && isValidTextInput(hero.catch_phrase)
-    );
+    const heroValues = Object.values(hero);
+
+    return heroValues.every(value => {
+      if (typeof value === 'string') {
+        return isValidTextInput(value);
+      }
+
+      return true;
+    });
   };
 
   const handleAddNewHero = (event: FormEvent) => {
@@ -116,7 +118,6 @@ export const HeroForm: FC = () => {
         >
           <TextField
             sx={{ placeSelf: 'center' }}
-            id="NickName-input"
             type="text"
             placeholder="NickName"
             value={hero.nickname}
@@ -130,7 +131,6 @@ export const HeroForm: FC = () => {
 
           <TextField
             sx={{ placeSelf: 'center' }}
-            id="Real-Name-input"
             type="text"
             placeholder="Real Name"
             value={hero.real_name}
@@ -144,7 +144,6 @@ export const HeroForm: FC = () => {
 
           <TextField
             sx={{ placeSelf: 'center' }}
-            id="Origin-description-input"
             type="text"
             placeholder="Origin description"
             value={hero.origin_description}
@@ -158,7 +157,6 @@ export const HeroForm: FC = () => {
 
           <TextField
             sx={{ placeSelf: 'center' }}
-            id="Superpowers-input"
             type="text"
             placeholder="Superpowers"
             value={hero.superpowers}
@@ -172,7 +170,6 @@ export const HeroForm: FC = () => {
 
           <TextField
             sx={{ placeSelf: 'center' }}
-            id="Catch-phrase-input"
             type="text"
             placeholder="Catch phrase"
             value={hero.catch_phrase}
@@ -186,7 +183,6 @@ export const HeroForm: FC = () => {
 
           <TextField
             sx={{ placeSelf: 'center' }}
-            id="image-input"
             label="Images"
             placeholder="Image URL"
             value={hero.images.join(', ')}
@@ -214,6 +210,5 @@ export const HeroForm: FC = () => {
         </form>
       </ModalContentWrapper>
     </Modal>
-
   );
 };

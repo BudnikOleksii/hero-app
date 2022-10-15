@@ -1,24 +1,31 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
-  createHero, deleteHeroById, getHeroes, updateHero,
+  createHero, deleteHeroById, getHeroes, getHeroesWithQueryParams, updateHero,
 } from '../api/heroes';
 import { Hero } from '../types/Hero';
 
 interface HeroesState {
   heroes: Hero[],
+  heroesCount: number,
   heroesIsLoading: boolean;
   heroesError: string;
 }
 
 const initialState: HeroesState = {
   heroes: [],
+  heroesCount: 0,
   heroesIsLoading: false,
   heroesError: '',
 };
 
 export const fetchHeroes = createAsyncThunk<Hero[]>(
-  'heroes/fetchHeroes',
+  'heroes/fetch_heroes',
   getHeroes,
+);
+
+export const fetchHeroesForCurrentPage = createAsyncThunk(
+  'heroes/fetch_current_heroes',
+  getHeroesWithQueryParams,
 );
 
 export const addNewHero = createAsyncThunk(
@@ -44,9 +51,16 @@ export const heroesSlice = createSlice({
     builder.addCase(fetchHeroes.pending, (state) => {
       state.heroesIsLoading = true;
     });
+    builder.addCase(fetchHeroesForCurrentPage.pending, (state) => {
+      state.heroesIsLoading = true;
+    });
 
-    builder.addCase(fetchHeroes.fulfilled,
-      (state, action: PayloadAction<Hero[]>) => {
+    builder.addCase(fetchHeroes.fulfilled, (state, action) => {
+        state.heroesCount = action.payload.length;
+        state.heroesIsLoading = false;
+      });
+
+    builder.addCase(fetchHeroesForCurrentPage.fulfilled, (state, action) => {
         state.heroes = action.payload;
         state.heroesIsLoading = false;
       });
@@ -56,6 +70,7 @@ export const heroesSlice = createSlice({
     });
 
     builder.addCase(addNewHero.fulfilled, (state, action) => {
+      state.heroesCount += 1;
       state.heroes.push(action.payload);
     });
 
@@ -66,6 +81,7 @@ export const heroesSlice = createSlice({
     });
 
     builder.addCase(removeHeroById.fulfilled, (state, action) => {
+      state.heroesCount -= 1;
       state.heroes = state.heroes.filter(hero => (
         hero._id !== action.meta.arg
       ));
