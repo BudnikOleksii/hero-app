@@ -28,7 +28,7 @@ npm run install-all-deps
 ```
 5. Run project by command:
 ```bash 
-npm run server
+npm run deploy
 ```
 6. Open application in your browser `http://localhost:8000/`
 
