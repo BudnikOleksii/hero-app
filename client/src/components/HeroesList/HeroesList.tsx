@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Layout } from '../Layout/Layout';
+import { Layout } from '../Layout';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';

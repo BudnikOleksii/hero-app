@@ -190,8 +190,6 @@ export const HeroForm: FC = () => {
               handleNewHeroData('images', event.target.value);
               setErrorMessage('');
             }}
-            error={!!errorMessage}
-            helperText={errorMessage}
           />
 
           <Button

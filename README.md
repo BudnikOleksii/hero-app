@@ -24,7 +24,7 @@ npm install
 ```
 4. Set up project and install necessary packages:
 ```bash 
-npm install-all-deps
+npm run install-all-deps
 ```
 5. Run project by command:
 ```bash 
