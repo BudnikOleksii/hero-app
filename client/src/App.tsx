@@ -21,6 +21,10 @@ function App() {
       <Routes>
         <Route path="/" element={<HeroesList />} />
         <Route path="home" element={<Navigate to="/" replace />} />
+        <Route path="/heroes/">
+          <Route index element={<HeroesList />} />
+          <Route path=":page" element={<HeroesList />} />
+        </Route>
         <Route path="/hero/:heroId" element={<HeroModal />} />
         <Route path="/hero/edit">
           <Route index element={<HeroForm />} />

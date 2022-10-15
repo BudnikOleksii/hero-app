@@ -10,17 +10,24 @@ import Container from '@mui/material/Container';
 import Pagination from '@mui/material/Pagination';
 import Button from '@mui/material/Button';
 import { HeroesCard } from '../HeroesCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchHeroesForCurrentPage } from '../../features/heroesSlice';
 
 const ITEMS_PER_PAGE = 5;
 
 export const HeroesList: FC = () => {
-  const { heroes, heroesCount, heroesIsLoading, heroesError } = useAppSelector(selectors.getHeroes);
+  const { page } = useParams();
+  const {
+    heroes,
+    heroesCount,
+    heroesIsLoading,
+    heroesError
+  } = useAppSelector(selectors.getHeroes);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(Number(page) || 1);
+  console.log(currentPage)
 
   const pages = Math.ceil(heroesCount / ITEMS_PER_PAGE);
 
@@ -29,7 +36,7 @@ export const HeroesList: FC = () => {
       page: currentPage,
       limit: ITEMS_PER_PAGE,
     }))
-  }, [currentPage])
+  }, [currentPage, heroesCount])
 
 
   return (
@@ -60,17 +67,22 @@ export const HeroesList: FC = () => {
                 <HeroesCard hero={hero} key={hero._id} />
               ))}
             </Grid>
+
+            <Container sx={{ display: 'grid' }}>
+              <Pagination
+                sx={{ placeSelf: 'center' }}
+                count={pages}
+                shape="rounded"
+                color="primary"
+                page={currentPage}
+                onChange={(_, pageNumber) => {
+                  setCurrentPage(pageNumber);
+                  navigate(`/heroes/${pageNumber}`);
+                }}
+              />
+            </Container>
           </Paper>
         )}
-
-        <Container sx={{ display: 'grid' }}>
-          <Pagination
-            sx={{ placeSelf: 'center' }}
-            count={pages}
-            color="primary"
-            onChange={(_, pageNumber) => setCurrentPage(pageNumber)}
-          />
-        </Container>
       </main>
     </Layout>
   );
