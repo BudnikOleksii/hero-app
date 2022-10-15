@@ -4,10 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "server-dependencies": "npm install --prefix server",
+    "client-dependencies": "npm install --prefix client",
+    "install-all-deps": "concurrently \"npm run server-dependencies\" \"npm run client-dependencies\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "npm run watch --prefix server",
     "client": "npm start --prefix client",
-    "watch": "concurrently 'npm:server' 'npm:client' "
+    "watch": "concurrently 'npm:server' 'npm:client' ",
+    "deploy": "npm run build --prefix client & npm start --prefix server"
   },
   "repository": {
     "type": "git",
