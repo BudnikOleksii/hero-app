@@ -30,7 +30,7 @@ export const HeroModal: FC = () => {
 
   const handleClose = () => {
     setOpen(false);
-    navigate(`/`);
+    navigate(-1);
   };
 
   return (

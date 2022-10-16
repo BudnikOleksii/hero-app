@@ -27,7 +27,6 @@ export const HeroesList: FC = () => {
   const dispatch = useAppDispatch();
 
   const [currentPage, setCurrentPage] = useState(Number(page) || 1);
-  console.log(currentPage)
 
   const pages = Math.ceil(heroesCount / ITEMS_PER_PAGE);
 
