@@ -25,6 +25,7 @@ export const HeroForm: FC = () => {
   const heroState = useAppSelector(state => (
     state.heroesState.heroes.find(hero => hero._id === heroId) || defaultHero
   ));
+  console.log(heroId, heroState)
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export const HeroForm: FC = () => {
 
   const handleClose = () => {
     setOpen(false);
-    navigate(`/`);
+    navigate(-1);
   };
 
   const isValidTextInput = (value: string) => {
@@ -95,7 +96,7 @@ export const HeroForm: FC = () => {
       dispatch(addNewHero(hero));
     }
 
-    navigate('/');
+    navigate(-1);
   };
 
   const isDisabled = !hero.catch_phrase || !hero.nickname || !hero.origin_description || !hero.real_name || !hero.images?.length;

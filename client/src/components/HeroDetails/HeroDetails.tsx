@@ -53,7 +53,7 @@ export const HeroDetails: FC<Props> = ({ hero }) => {
 
   const handleRemoveHero = () => {
     dispatch(removeHeroById(_id));
-    navigate('/');
+    navigate(-1);
   };
 
   return (
@@ -136,9 +136,9 @@ export const HeroDetails: FC<Props> = ({ hero }) => {
 
           <Button
             size="small"
-            onClick={() => navigate('/')}
+            onClick={() => navigate(-1)}
           >
-            Return to main page
+            Return to previous page
           </Button>
         </CardActions>
       </Card>
